@@ -3,7 +3,7 @@ This document contains some information about how to use this code to do analyti
 # Requirement:
 --------------
 A C++ compiler (e.g. GNU gcc)
-[<Eigen>](http://eigen.tuxfamily.org/index.php?title=Main_Page#Download)
+[Eigen](http://eigen.tuxfamily.org/index.php?title=Main_Page#Download)
 
 # Instruction:
 -------------
