@@ -19,8 +19,8 @@ class Maxent{
   //----------Data declaration-------//
   clock_t start;
 
-  char * fname;
-  char * defaultModel;
+  const char * fname;
+  const char * defaultModel;
   
   unsigned numMfre;
   unsigned numRfre;
@@ -64,7 +64,7 @@ class Maxent{
   MatrixXcd T;
   
   //-----------Function declaration-------//
-  Maxent(char*, const unsigned, const unsigned, const unsigned, const unsigned, const double, const double, char *, const double, const double, const double, const unsigned, const double);
+  Maxent(const char*, const unsigned, const unsigned, const unsigned, const unsigned, const double, const double, const char *, const double, const double, const double, const unsigned, const double);
   ~Maxent();
 
   
@@ -87,14 +87,14 @@ class Maxent{
   
 };
 
-Maxent::Maxent(char* fname_,
+Maxent::Maxent(const char* fname_,
 	       const unsigned columns_,
 	       const unsigned rows_,
 	       const unsigned numMfre_,
 	       const unsigned numRfre_,
 	       const double wmin_,
 	       const double wmax_,
-	       char * defaultM_,
+	       const char * defaultM_,
 	       const double tol_,
 	       const double alphamin_,
 	       const double alphamax_,
@@ -263,6 +263,21 @@ void Maxent::initSpecF(const char * defaultM_){
   else if (str == "straightline"){
     specF = straightline(this->w);
     defaultM = specF;
+  }
+  else{
+    std::ifstream file(defaultM_);
+    if (file.is_open()){
+      double a;
+      defaultM.resize(numRfre);
+      for (size_t i = 0; i < numRfre; ++i){	
+	file >> a >> defaultM(i);
+      }
+      specF = defaultM;
+    }else{
+      cerr <<  "Didn't find the default Model file!";
+      throw std::exception();
+    }
+
   }
 
   
@@ -460,8 +475,12 @@ void Maxent::getAllSpecFs(){
     clog << "Finish alpha at " << alpha << ".\n";
   }
   VectorXd temp(numAlpha);
+  double sum;
   for (size_t i = 0; i < numAlpha; ++i) temp(i) = allProbs(i) * dalpha(i);
-  aveSpecFs = allSpecFs * temp;
+  sum = temp.sum();
+  for (size_t i = 0; i < numAlpha; ++i) allProbs(i) /= sum;
+  
+  aveSpecFs = allSpecFs * allProbs;
 
   clog << "Optimization ends. Use --- " << (clock() - start)/double(CLOCKS_PER_SEC) << " --- seconds.\n";
   
@@ -472,7 +491,8 @@ void Maxent::saveData(){
   std::string dirname(fname);
   dirname = forestr(dirname, ".");
 
-  savetxt(dirname.append("maxent.dat").c_str(), w , aveSpecFs);
+  savetxt((dirname+"maxent.dat").c_str(), w , aveSpecFs);
+  savetxt((dirname +"Palpha.dat").c_str(), alphas, allProbs);
   
 }
 

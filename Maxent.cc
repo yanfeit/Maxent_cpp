@@ -42,33 +42,33 @@ int main(int argc, char * argv[]){
     if (str == "-mu" && i < argc-1) mu_ = atof(argv[++i]);
     if (str == "-h" || str == "--help"){
       std::clog << "Maxent [Option]\n";
-      std::clog << "Option: -file\n";
-      std::clog << "        -col\n";
-      std::clog << "        -row\n";
-      std::clog << "        -numMfre\n";
-      std::clog << "        -numRfre\n";
-      std::clog << "        -wmin\n";
-      std::clog << "        -wmax\n";
-      std::clog << "        -defaultM\n";
-      std::clog << "        -tol\n";
-      std::clog << "        -alphamin\n";
-      std::clog << "        -alphamax\n";
-      std::clog << "        -numAlpha\n";
-      std::clog << "        -mu\n";
+      std::clog << "Option: -file     char *   Input File Nam\n";
+      std::clog << "        -col      unsigned Number of Columns in Input File\n";
+      std::clog << "        -row      unsigned Number of Rows in Input File\n";
+      std::clog << "        -numMfre  unsigned Number of Matsubara Frequency Used\n";
+      std::clog << "        -numRfre  unsigned Size of Gird for Real Frequency\n";
+      std::clog << "        -wmin     double   Minimum Real Frequency\n";
+      std::clog << "        -wmax     double   Maximum Real Frequency\n";
+      std::clog << "        -defaultM char *   Name of Default Model(Can be a File)\n";
+      std::clog << "        -tol      double   Tolerance, e.g. 1e-5\n";
+      std::clog << "        -alphamin double   Minimum alpha\n";
+      std::clog << "        -alphamax double   Maximum alpha\n";
+      std::clog << "        -numAlpha unsigned Number of alpha. Alpha is Log Spaced\n";
+      std::clog << "        -mu       double   Initial mu in The ML Algorithm\n";
       return 0;
     }
     
   }
 
-  std::clog << "-file " << fname_ << "\n";
-  std::clog << "-col " << columns_ << "\n";
-  std::clog << "-row " << rows_ << "\n";
-  std::clog << "-numMfre " << numMfre_ << "\n";
-  std::clog << "-numRfre " << numRfre_ << "\n";
-  std::clog << "-wmin " << wmin_ << "\n";
-  std::clog << "-wmax " << wmax_ << "\n";
-  std::clog << "-defaultM " << defaultM_ << "\n";
-  std::clog << "-tol " << tol_ << "\n";
+  std::clog << "-file" << fname_ << "\n";
+  std::clog << "-col" << columns_ << "\n";
+  std::clog << "-row" << rows_ << "\n";
+  std::clog << "-numMfre" << numMfre_ << "\n";
+  std::clog << "-numRfre" << numRfre_ << "\n";
+  std::clog << "-wmin" << wmin_ << "\n";
+  std::clog << "-wmax" << wmax_ << "\n";
+  std::clog << "-defaultM" << defaultM_ << "\n";
+  std::clog << "-tol" << tol_ << "\n";
   std::clog << "-alphamin " << alphamin_ << "\n";
   std::clog << "-alphamax " << alphamax_ << "\n";
   std::clog << "-numAlpha " << numAlpha_ << "\n";
@@ -76,7 +76,6 @@ int main(int argc, char * argv[]){
   
   try{
     Maxent model(fname_, columns_, rows_, numMfre_, numRfre_, wmin_, wmax_, defaultM_, tol_, alphamin_, alphamax_, numAlpha_, mu_);
-    model.alpha = 0.5;
     model.getAllSpecFs();
     model.saveData();
 

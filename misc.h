@@ -60,7 +60,7 @@ Eigen::VectorXd logspace(const double & start, const double & stop, const unsign
 
 std::string forestr(std::string const& s, std::string const &mark)
 {
-    std::string::size_type pos = s.find(mark);
+    std::string::size_type pos = s.find_last_of(mark);
     if (pos != std::string::npos)
     {
         return s.substr(0, pos);
