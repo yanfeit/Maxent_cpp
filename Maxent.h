@@ -358,7 +358,7 @@ void Maxent::getSpecF(){
     temp = aveG - restoreG(this->specF);
 
     for (size_t i = 0; i < numMfre; ++i){
-      deri(i) = -2.0/stdG(i)/stdG(i) * temp(i);
+      deri(i) = -1.0/stdG(i)/stdG(i) * temp(i);
     }
     
     g = Xi * Vt * deri;
